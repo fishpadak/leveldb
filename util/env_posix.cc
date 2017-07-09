@@ -265,9 +265,9 @@ class PosixWritableFile : public WritableFile {
       if (fd < 0) {
         s = IOError(dir, errno);
       } else {
-        if (fsync(fd) < 0) {
-          s = IOError(dir, errno);
-        }
+//        if (fsync(fd) < 0) {
+//          s = IOError(dir, errno);
+//        }
         close(fd);
       }
     }
@@ -280,8 +280,8 @@ class PosixWritableFile : public WritableFile {
     if (!s.ok()) {
       return s;
     }
-    if (fflush_unlocked(file_) != 0 ||
-        fdatasync(fileno(file_)) != 0) {
+    if (fflush_unlocked(file_) != 0) {
+ //       fdatasync(fileno(file_)) != 0) {
       s = Status::IOError(filename_, strerror(errno));
     }
     return s;
